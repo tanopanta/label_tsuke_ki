@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script type="text/javascript">
+        
+        
+        $(function(){ 
+            function sendJSON(state) {
+                var now = Math.floor(new Date().getTime() / 1000);
+                var JSONdata = {
+                    time: now,
+                    state: state
+                };
+                //console.log(JSON.stringify(JSONdata));
+    
+                $.ajax({
+                    type : 'post',
+                    url : 'http://127.0.0.1:5000/post',
+                    data : JSON.stringify(JSONdata),
+                    contentType: 'application/json',
+                    dataType : 'json',
+                    scriptCharset: 'utf-8',
+                    success : function(data) {
+                        // Success
+                        console.log("success");
+                        console.log(JSON.stringify(data));
+                        $("#response").html(JSON.stringify(data));
+
+                        var d = new Date(data["time"] * 1000);
+
+                        $('ul').append("<li>" + d.toString() +":" + data["state"] + "</li>");
+                    },
+                    error : function(data) {
+                        // Error
+                        console.log("error");
+                    }
+                });
+            }
+            $("#button_sleep").click( function(){
+                sendJSON("sleep");
+            })
+            $("#button_dance").click( function(){
+                sendJSON("dance");
+            })
+        })
+    </script>
+</head>
+<body>
+    <p>{{message}}</p>
+
+    <input type="text" name="idd" id="idd" placeholder="ID">
+    <div>
+        <button id="button_sleep" type="button">寝る</button>
+        <button id="button_dance" type="button">踊る</button>
+
+    </div>
+    
+    <ul></ul>
+
+</body>
+</html>

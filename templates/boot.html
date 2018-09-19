@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ラベル付け機</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+
+    
+    <style>
+        .container {
+            padding-top: 20px;
+        }
+        #stateList {
+            /* こいつが重要 */
+            overflow:auto;
+            height:250px;
+            line-height:1.5;
+            padding:10px 0;
+        }
+        .align-right {
+            text-align: right;
+        }
+        .align-left {
+            float: left;
+        }
+    </style>
+    
+</head>
+<body>
+     <!-- ナビゲーションバー -->
+    <nav class="navbar navbar-light bg-light">
+        <span class="navbar-brand h1">{{message}}</span>
+    </nav>
+    <div class="container">
+        <input type="text" name="id" id="id" placeholder="ID" class="form-control">
+        <h4>行動</h4>
+        <div>
+            <button id="button_sleep" type="button" class="btn btn-primary">寝る</button>
+            <button id="button_walk" type="button" class="btn btn-secondary">歩く</button>
+            <button id="button_sit" type="button" class="btn btn-success">座る</button>
+            <button id="button_up" type="button" class="btn btn-danger">階段↑</button>
+            <button id="button_down" type="button" class="btn btn-warning">階段↓</button>
+            <button id="button_elevator" type="button" class="btn btn-info">エレベーター</button>
+        </div>
+        <h4>感情</h4>
+        <div>
+            <p class="align-left">喜び😊</p>
+            <p class="align-right">悲しみ😭</p>
+        </div>
+        <input type="range" class="custom-range" id="customRange1" min="-1" max="1" step="0.005">
+        <div>
+            <p class="align-left">信頼😉</p>
+            <p class="align-right">嫌悪😒</p>
+        </div>
+        <input type="range" class="custom-range" id="customRange1" min="-1" max="1" step="0.005">
+        <div>
+            <p class="align-left">怖れ😱</p>
+            <p class="align-right">怒り😡</p>
+        </div>
+        <input type="range" class="custom-range" id="customRange1" min="-1" max="1" step="0.005">
+        <div>
+            <p class="align-left">驚き😦</p>
+            <p class="align-right">期待😎</p>
+        </div>
+        <input type="range" class="custom-range" id="customRange1">
+        <ul id="stateList" min="-1" max="1" step="0.005"></ul>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        $(function(){ 
+            function sendJSON(state) {
+                var now = Math.floor(new Date().getTime() / 1000);
+                var id = $("#id").val().trim();
+                var JSONdata = {
+                    id: id,
+                    time: now,
+                    state: state
+                };
+    
+                $.ajax({
+                    type : 'post',
+                    url : 'http://' + location.hostname + ':5000/post',
+                    data : JSON.stringify(JSONdata),
+                    contentType: 'application/json',
+                    dataType : 'json',
+                    scriptCharset: 'utf-8',
+                    success : function(data) {
+                        // Success
+                        console.log("success");
+                        console.log(JSON.stringify(data));
+                        $("#response").html(JSON.stringify(data));
+
+                        var d = new Date(data["time"] * 1000);
+
+                        $('ul').append("<li>" + d.toString() +":" + data["state"] + "</li>");
+                    },
+                    error : function(data) {
+                        // Error
+                        console.log("error");
+                    }
+                });
+            }
+            $("#button_sleep").click( function(){
+                sendJSON("sleep");
+            })
+            $("#button_walk").click( function(){
+                sendJSON("walk");
+            })
+            $("#button_sit").click( function(){
+                sendJSON("sit");
+            })
+            $("#button_up").click( function(){
+                sendJSON("up");
+            })
+            $("#button_down").click( function(){
+                sendJSON("down");
+            })
+            $("#button_elevator").click( function(){
+                sendJSON("elevator");
+            })
+        })
+    </script>
+
+</body>
+</html>
