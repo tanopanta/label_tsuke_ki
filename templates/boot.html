@@ -32,55 +32,99 @@
 <body>
      <!-- ナビゲーションバー -->
     <nav class="navbar navbar-light bg-light">
-        <span class="navbar-brand h1">{{id}}さん　今何してる？ </span>
+        <span class="navbar-brand h1">{{myid}}さん　今何してる？ </span>
     </nav>
     <div class="container">
-        <form method="post">
-            <div class="form-group"> 
-                <select class="form-control" id="statusSelect">
-                    <option>座る</option>
-                    <option>立つ</option>
-                    <option>歩く</option>
-                    <option>昇り</option>
-                    <option>降り</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <div class="col-xs-2">
-                    <input type="text" name="memo" id="memo" placeholder="メモ" class="form-control">
-                </div>
-            </div>
-            
-        </form>
-            <div>
-                <p class="align-left">喜び😊</p>
-                <p class="align-right">悲しみ😭</p>
-                <input type="range" class="custom-range" id="customRange1" min="-1" max="1" step="0.005">
-            </div>
+        
+        <div class="form-group"> 
+            <select class="form-control" id="statusSelect">
+                <option>座る</option>
+                <option>立つ</option>
+                <option>歩く</option>
+                <option>昇り</option>
+                <option>降り</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="text" name="memo" id="memo" placeholder="メモ" class="form-control">
+        </div>
 
-            <div>
-                <p class="align-left">信頼😉</p>
-                <p class="align-right">嫌悪😒</p>
-                <input type="range" class="custom-range" id="customRange2" min="-1" max="1" step="0.005">
-            </div>
-            
-            <div>
-                <p class="align-left">怖れ😱</p>
-                <p class="align-right">怒り😡</p>
-                <input type="range" class="custom-range" id="customRange3" min="-1" max="1" step="0.005">
-            </div>
-            
-            <div>
-                <p class="align-left">驚き😦</p>
-                <p class="align-right">期待😎</p>
-                <input type="range" class="custom-range" id="customRange4"　 min="-1" max="1" step="0.005">
-            </div>
+        <div>
+            <p class="align-left">喜び😊</p>
+            <p class="align-right">悲しみ😭</p>
+            <input type="range" class="custom-range" id="customRange1" min="-1" max="1" step="0.005">
+        </div>
+
+        <div>
+            <p class="align-left">信頼😉</p>
+            <p class="align-right">嫌悪😒</p>
+            <input type="range" class="custom-range" id="customRange2" min="-1" max="1" step="0.005">
+        </div>
+        
+        <div>
+            <p class="align-left">怖れ😱</p>
+            <p class="align-right">怒り😡</p>
+            <input type="range" class="custom-range" id="customRange3" min="-1" max="1" step="0.005">
+        </div>
+        
+        <div>
+            <p class="align-left">驚き😦</p>
+            <p class="align-right">期待😎</p>
+            <input type="range" class="custom-range" id="customRange4"　 min="-1" max="1" step="0.005">
+        </div>
+        <button type="button" class="btn btn-primary" id="button_save">セーブ</button>
+        <button type="button" class="btn btn-success" id="button_upload">アップロード</button>
+        <a id="save_count">0個のデータを保存中</a>
         <ul id="stateList"></ul>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript">
         $(function(){ 
+            updateSaveCount();
+            
+            $("#button_upload").on('click', function(){
+                var data = {memo:"fa"};
+                $.ajax({
+                    type: 'post',
+                    url: 'http://' + location.hostname + ":5000/post",
+                    contentType: 'application/json',
+                    datatType: 'json',
+                    data: JSON.stringify(data),
+                    timeout: 10000,
+                    success: function(data) {
+
+                    },
+                    error: function() {
+
+                    }
+                })
+            });
+            
+            $('#button_save').on('click', function () {
+                var datalist = JSON.parse(localStorage.getItem("label"));
+                if(!datalist) {
+                    datalist = [];
+                } else {
+                    updateSaveCount(datalist.length)
+                }
+                datalist.push({
+                    time: 1,
+                    memo: $('#memo').val()
+                });
+                localStorage.setItem("label", JSON.stringify(datalist));
+            });
+            
+            function updateSaveCount(num) {
+                if(num) {
+                    $('#save_count').text(num + '個のデータを保存中');
+                } else {
+                    var datalist = JSON.parse(localStorage.getItem("label"));
+                    if(datalist) {
+                        $('#save_count').text( datalist.length + '個のデータを保存中');
+                    }
+                }
+            }
             function sendJSON(state) {
                 var now = Math.floor(new Date().getTime() / 1000);
                 var id = $("#id").val().trim();
@@ -113,24 +157,6 @@
                     }
                 });
             }
-            $("#button_sleep").click( function(){
-                sendJSON("sleep");
-            })
-            $("#button_walk").click( function(){
-                sendJSON("walk");
-            })
-            $("#button_sit").click( function(){
-                sendJSON("sit");
-            })
-            $("#button_up").click( function(){
-                sendJSON("up");
-            })
-            $("#button_down").click( function(){
-                sendJSON("down");
-            })
-            $("#button_elevator").click( function(){
-                sendJSON("elevator");
-            })
         })
     </script>
 

@@ -26,14 +26,15 @@ def index():
 
 @app.route('/boot')
 def boot():
-    id = "aa"
-    return render_template('boot.html', id=id)
+    myid = request.args.get("id")
+    return render_template('boot.html', myid=myid)
 
 # /post にアクセスしたときの処理
 @app.route('/post', methods=['POST'])
 def post():
     receive_dict = request.json #辞書型
-    print(receive_dict["id"], datetime.fromtimestamp(receive_dict["time"]), receive_dict["state"])
+    #receive_dict = request.form
+    print(receive_dict)
     return Response(json.dumps(receive_dict))
 
 if __name__ == '__main__':
