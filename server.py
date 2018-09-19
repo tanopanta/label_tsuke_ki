@@ -21,10 +21,13 @@ app = Flask(__name__)
 # index にアクセスしたときの処理
 @app.route('/')
 def index():
-    message = "今なにしてる？"
     # index.html をレンダリングする
-    return render_template('boot.html',
-                           message=message)
+    return render_template('index.html')
+
+@app.route('/boot')
+def boot():
+    id = "aa"
+    return render_template('boot.html', id=id)
 
 # /post にアクセスしたときの処理
 @app.route('/post', methods=['POST'])
