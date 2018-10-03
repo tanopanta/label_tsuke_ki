@@ -35,7 +35,7 @@
         <span class="navbar-brand h1">{{myid}}さん　今何してる？ </span>
     </nav>
     <div class="container">
-        
+        <h5>行動</h5>
         <div class="form-group"> 
             <select class="form-control" id="statusSelect">
                 <option>座る</option>
@@ -49,28 +49,31 @@
             <input type="text" name="memo" id="memo" placeholder="メモ" class="form-control">
         </div>
 
-        <div>
-            <p class="align-left">悲しみ😭</p>
-            <p class="align-right">喜び😊</p>
-            <input type="range" class="custom-range" id="range_joy" min="-1" max="1" step="0.005">
+        <h5>感情</h5>
+        <div class="form-group"> 
+            <select class="form-control" id="emotionSelect">
+                <option value="happiness">幸福😊</option>
+                <option value="sadness">悲しみ😭</option>
+                <option value="anger">怒り😡</option>
+                <option value="contempt">軽蔑😞</option>
+                <option value="disgust">嫌悪😒</option>
+                <option value="fear">恐怖😱</option>
+                <option value="surprise">驚き😯</option>
+                <option value="neutral">中立😐</option>
+            </select>
         </div>
-
         <div>
-            <p class="align-left">嫌悪😒</p>
-            <p class="align-right">信頼😉</p>
-            <input type="range" class="custom-range" id="range_trust" min="-1" max="1" step="0.005">
+            <div class="align-left">弱い</div>
+            <div class="align-right">強い</div>
+            <input type="range" class="custom-range" id="range_emotion" min="0" max="1" step="0.01">
         </div>
         
-        <div>
-            <p class="align-left">怖れ😱</p>
-            <p class="align-right">怒り😡</p>
-            <input type="range" class="custom-range" id="range_anger" min="-1" max="1" step="0.005">
-        </div>
         
         <div>
-            <p class="align-left">驚き😦</p>
-            <p class="align-right">期待😎</p>
-            <input type="range" class="custom-range" id="range_anticipation"　 min="-1" max="1" step="0.005">
+            <h5>眠気</h5>
+            <div class="align-left">弱い</div>
+            <div class="align-right">強い</div>
+            <input type="range" class="custom-range" id="range_sleep" min="0" max="1" step="0.01">
         </div>
         <button type="button" class="btn btn-primary" id="button_save">セーブ</button>
         <button type="button" class="btn btn-success" id="button_upload">アップロード</button>
@@ -113,10 +116,9 @@
                     time: Date.now(),
                     memo: $('#memo').val(),
                     action: $('#statusSelect').val(),
-                    s_joy: $('#range_joy').val(),
-                    s_trust: $('#range_trust').val(),
-                    s_anger: $('#range_anger').val(),
-                    s_anticipation: $('#range_anticipation').val()
+                    emotion: $('#emotionSelect').val(),
+                    emotion_val: $('#range_emotion').val(),
+                    sleep: $('#range_sleep').val()
                 });
                 updateSaveCount(datalist.length)
                 localStorage.setItem("label", JSON.stringify(datalist));

@@ -10,10 +10,9 @@ c.execute('''
             id text,
             time int,
             action text,
-            s_joy real,
-            s_trust real,
-            s_anger real,
-            s_anticipation real,
+            emotion text,
+            emotion_val real,
+            sleep real,
             memo text)''')
 
 #c.execute("alter table data add column bpm real")
