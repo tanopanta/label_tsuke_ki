@@ -116,7 +116,7 @@
                 } 
                 datalist.push({
                     id: '{{myid}}',
-                    time: Date.now(),
+                    time: Math.floor(Date.now()/1000),
                     memo: $('#memo').val(),
                     action: $('#statusSelect').val(),
                     emotion: $('#emotionSelect').val(),
