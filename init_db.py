@@ -9,7 +9,6 @@ c.execute('''
         create table if not exists data(
             id text,
             time int,
-            action text,
             emotion text,
             memo text)''')
 

@@ -35,21 +35,10 @@
         <span class="navbar-brand h1">{{myid}}さん　今何してる？ </span>
     </nav>
     <div class="container">
-        <h5>行動</h5>
-        <div class="form-group"> 
-            <select class="form-control" id="statusSelect">
-                <option>座る</option>
-                <option>立つ</option>
-                <option>歩く</option>
-                <option>昇り</option>
-                <option>降り</option>
-                <option>その他</option>
-            </select>
-        </div>
         <h5>感情</h5>
         <div class="form-group"> 
             <select class="form-control" id="emotionSelect">
-                <option value="excite">わくわく🤩</option>
+                <option value="excite">わくわく😀</option>
                 <option value="happiness">幸福😊</option>
                 <option value="relax">リラックス🙂</option>
                 <option value="anger">怒り😡</option>
@@ -105,7 +94,6 @@
                     id: '{{myid}}',
                     time: Math.floor(Date.now()/1000),
                     memo: $('#memo').val(),
-                    action: $('#statusSelect').val(),
                     emotion: $('#emotionSelect').val()
                 });
                 updateSaveCount(datalist.length)
