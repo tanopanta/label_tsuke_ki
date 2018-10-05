@@ -11,8 +11,6 @@ c.execute('''
             time int,
             action text,
             emotion text,
-            emotion_val real,
-            sleep real,
             memo text)''')
 
 #c.execute("alter table data add column bpm real")

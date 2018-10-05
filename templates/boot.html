@@ -46,37 +46,24 @@
                 <option>その他</option>
             </select>
         </div>
+        <h5>感情</h5>
+        <div class="form-group"> 
+            <select class="form-control" id="emotionSelect">
+                <option value="excite">わくわく🤩</option>
+                <option value="happiness">幸福😊</option>
+                <option value="relax">リラックス🙂</option>
+                <option value="anger">怒り😡</option>
+                <option value="fear">恐れ😱</option>
+                <option value="sadness">悲しみ😭</option>
+                <option value="boring">退屈😦</option>
+                <option value="neutral">中立😐</option>
+            </select>
+        </div>
+        
         <div class="form-group">
             <input type="text" name="memo" id="memo" placeholder="メモ" class="form-control">
         </div>
 
-        <h5>感情</h5>
-        <div class="form-group"> 
-            <select class="form-control" id="emotionSelect">
-                <option value="happiness">幸福😊</option>
-                <option value="sadness">悲しみ😭</option>
-                <option value="anger">怒り😡</option>
-                <option value="contempt">軽蔑😞</option>
-                <option value="disgust">嫌悪😒</option>
-                <option value="fear">恐怖😱</option>
-                <option value="surprise">驚き😯</option>
-                <option value="neutral">中立😐</option>
-            </select>
-        </div>
-        <div>
-            <div class="align-left">弱い</div>
-            <div class="align-right">強い</div>
-            <input type="range" class="custom-range" id="range_emotion" min="0" max="1" step="0.01">
-        </div>
-        
-        
-        <div>
-            <h5>眠気</h5>
-            <div class="align-left">弱い</div>
-            <div class="align-right">強い</div>
-            <input type="range" class="custom-range" id="range_sleep" min="0" max="1" step="0.01">
-        </div>
-        
         <h5>　</h5>
         <button type="button" class="btn btn-primary" id="button_save">セーブ</button>
         <button type="button" class="btn btn-success" id="button_upload">アップロード</button>
@@ -119,9 +106,7 @@
                     time: Math.floor(Date.now()/1000),
                     memo: $('#memo').val(),
                     action: $('#statusSelect').val(),
-                    emotion: $('#emotionSelect').val(),
-                    emotion_val: $('#range_emotion').val(),
-                    sleep: $('#range_sleep').val()
+                    emotion: $('#emotionSelect').val()
                 });
                 updateSaveCount(datalist.length)
                 localStorage.setItem("label", JSON.stringify(datalist));
