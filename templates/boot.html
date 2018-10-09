@@ -39,16 +39,37 @@
         <div class="form-group"> 
             <select class="form-control" id="emotionSelect">
                 <option value="excite">わくわく😀</option>
-                <option value="happiness">幸福😊</option>
+                <option value="happiness">幸せ😊</option>
                 <option value="relax">リラックス🙂</option>
                 <option value="anger">怒り😡</option>
                 <option value="fear">恐れ😱</option>
-                <option value="disgust">嫌悪😱</option>
                 <option value="sadness">悲しみ😭</option>
                 <option value="boring">退屈😦</option>
                 <option value="neutral">中立😐</option>
             </select>
         </div>
+
+        <div>
+            <p class="align-left">不快</p>
+            <p class="align-right">快</p>
+            <input type="range" class="form-control-range" id="range_valence" min="1" max="9" step="1" list="tlist">
+        </div>
+        <div>
+            <p class="align-left">眠気</p>
+            <p class="align-right">覚醒</p>
+            <input type="range" class="form-control-range" id="range_arousal" min="1" max="9" step="1" list="tlist">
+        </div>
+        <datalist id="tlist">
+            <option value="1"></option>
+            <option value="2"></option>
+            <option value="3"></option>
+            <option value="4"></option>
+            <option value="5"></option>
+            <option value="6"></option>
+            <option value="7"></option>
+            <option value="8"></option>
+            <option value="9"></option>
+        </datalist>
         
         <div class="form-group">
             <input type="text" name="memo" id="memo" placeholder="メモ" class="form-control">
@@ -95,7 +116,9 @@
                     id: '{{myid}}',
                     time: Math.floor(Date.now()/1000),
                     memo: $('#memo').val(),
-                    emotion: $('#emotionSelect').val()
+                    emotion: $('#emotionSelect').val(),
+                    arousal: $('#range_arousal').val(),
+                    valence: $('#range_valence').val()
                 });
                 updateSaveCount(datalist.length)
                 localStorage.setItem("label", JSON.stringify(datalist));
@@ -104,14 +127,14 @@
             function updateSaveCount(num) {
                 var msg = "";
                 if(num) {
-                    msg = num + '個のデータを保存中';
+                    msg = num + '個を保存中';
                     
                 } else {
                     var datalist = JSON.parse(localStorage.getItem("label"));
                     if(datalist) {
-                        msg =  datalist.length + '個のデータを保存中';
+                        msg =  datalist.length + '個を保存中';
                     } else {
-                        msg = '0個のデータを保存中'
+                        msg = '0個を保存中'
                     }
                 }
                 $('#save_count').text(msg);

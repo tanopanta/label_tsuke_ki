@@ -53,9 +53,9 @@ def post():
     db = get_db()
     c = db.cursor()
     for js in js_list:
-        args = (js["id"], js["time"], js["emotion"], js["memo"])
+        args = (js["id"], js["time"], js["emotion"], js["valence"], js["arousal"], js["memo"])
         c.execute("""insert into data values
-            (?,?,?,?)""", args)
+            (?,?,?,?,?,?)""", args)
     db.commit()
 
     
