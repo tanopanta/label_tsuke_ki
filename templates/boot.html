@@ -76,8 +76,11 @@
         </div>
 
         <h5>　</h5>
-        <button type="button" class="btn btn-primary" id="button_save">セーブ</button>
-        <button type="button" class="btn btn-success" id="button_upload">アップロード</button>
+        <div class="form-group">
+            <button type="button" class="btn btn-primary" id="button_save">セーブ</button>
+            <button type="button" class="btn btn-success" id="button_upload">アップロード</button>
+            <button type="button" class="btn btn-danger" id="button_delete">全て削除</button>
+        </div>
         <a id="save_count">0個のデータを保存中</a>
         <ul id="stateList"></ul>
     </div>
@@ -123,7 +126,12 @@
                 updateSaveCount(datalist.length)
                 localStorage.setItem("label", JSON.stringify(datalist));
             });
-            
+            $('#button_delete').on('click', function () {
+                if(confirm('本当に削除しますか？')){
+                    localStorage.removeItem("label");
+                    updateSaveCount();
+                }
+            });
             function updateSaveCount(num) {
                 var msg = "";
                 if(num) {
